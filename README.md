@@ -15,8 +15,6 @@ READ_VAR x - reads value of "x" and pushes to stack
 
 ADD - pops two values from stack and adds
 
-ADD - pops two values from stack and adds
-
 SUBTRACT - pops two values from stack and subtracts
 
 MULTIPLY - pops two values from stack and multiplies 
@@ -33,7 +31,7 @@ GREATER_THAN_EQUAL - pops two values from stack and compares for greater than eq
 
 RETURN - exists function without any return value
 
-RETURN_VALUE - exists function with return value
+RETURN_VALUE - pops value from stack and exists function with return value
 
 PRINT x - prints value of "x" to terminal (no new line)
 
