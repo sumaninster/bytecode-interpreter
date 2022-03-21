@@ -41,7 +41,7 @@ pub mod parse_code {
         };
     }
     /*
-    Function to parse the byte code from file and convert it to vector
+    Function to parse byte code from file and convert it to vector
      */
     #[allow(dead_code)]
     pub fn parse_code(path: &str) -> (Vec<ByteCode>, HashMap<&'static str, Vec<ByteCode>>) {
