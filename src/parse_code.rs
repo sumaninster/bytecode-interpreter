@@ -2,6 +2,9 @@ pub mod parse_code {
     use crate::interpreter::interpreter::ByteCode;
     use std::collections::HashMap;
     use std::fs;
+    /*
+    Enum for type of code block when parsing
+     */
     #[derive(Clone, Copy)]
     #[allow(dead_code)]
     enum CodeType {
@@ -12,7 +15,7 @@ pub mod parse_code {
         Spawn,
     }
     /*
-    Function to parse the byte code from file and convert it to vector
+    Convert a token to static native string
      */
     macro_rules! get_var {
         ($var2:expr) => {
@@ -23,6 +26,9 @@ pub mod parse_code {
             }
         };
     }
+    /*
+    Get range of tokens from index to remaining tokens in vector as static native string
+     */
     macro_rules! copy_vars {
         ($token:expr, $index:expr) => {
             {
@@ -34,6 +40,9 @@ pub mod parse_code {
             }
         };
     }
+    /*
+    Function to parse the byte code from file and convert it to vector
+     */
     #[allow(dead_code)]
     pub fn parse_code(path: &str) -> (Vec<ByteCode>, HashMap<&'static str, Vec<ByteCode>>) {
         let data = fs::read_to_string(path).expect("Unable to read file");
