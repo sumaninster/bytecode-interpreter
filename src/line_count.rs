@@ -20,7 +20,7 @@ pub mod line_counter {
                         let s = path.file_name();
                         let file_path = std::path::Path::new(s.as_os_str());
                         if file_path.extension().and_then(OsStr::to_str) == Some(ext) {
-                            output_ln!(format!("{}: {}", path.path().display(),
+                            output_ln!(format!("{}: {} lines", path.path().display(),
                                          BufReader::new(File::open(path.path()).unwrap()).lines().count()));
                         }
                     }
