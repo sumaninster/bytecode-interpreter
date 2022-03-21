@@ -4,7 +4,9 @@ pub mod interpreter {
     use std::time::Duration;
     use std::sync::{mpsc};
     use std::sync::mpsc::{channel, Sender, Receiver};
-
+    /*
+    Enum for all bytecode instruction set
+     */
     #[derive(Debug, PartialEq, Clone)]
     #[allow(dead_code)]
     pub enum ByteCode {
@@ -32,6 +34,9 @@ pub mod interpreter {
         ReturnValue,
         Return,
     }
+    /*
+    Byte code supported data types
+     */
     #[derive(Debug, PartialEq, Eq, Clone)]
     #[allow(dead_code)]
     pub enum ByteCodeDataTypes {
@@ -39,12 +44,18 @@ pub mod interpreter {
         Boolean(bool),
         None,
     }
+    /*
+    Byte code supported Channel specific data types
+     */
     #[derive(Debug)]
     #[allow(dead_code)]
     pub enum ByteCodeMpscSyncTypes {
         SendChannel(Sender<i64>),
         ReceiveChannel(Receiver<i64>),
     }
+    /*
+    Enum for bytecode execution errors
+     */
     #[derive(Debug)]
     #[allow(dead_code)]
     pub enum ByteCodeError {
@@ -54,6 +65,9 @@ pub mod interpreter {
         NoReturnOpcode,
         ChannelNotFound,
     }
+    /*
+    Program structure to hold bytecode, stack, global variables, parameters and function bytecodes
+     */
     #[allow(dead_code)]
     pub struct Program {
         code: Vec<ByteCode>,
@@ -63,6 +77,9 @@ pub mod interpreter {
         #[allow(dead_code)]
         functions: HashMap<&'static str, Vec<ByteCode>>,
     }
+    /*
+    Macro to get value from enum type ByteCodeDataTypes
+     */
     macro_rules! value {
         ($var:expr) => {
             match $var {
@@ -72,6 +89,9 @@ pub mod interpreter {
             }
         };
     }
+    /*
+    Macro to perform mathematics operation on values from stack - add, subtract, multiply and divide
+     */
     macro_rules! operation {
     ($code:expr,$op:tt) => {
             if let (Some(a1), Some(b1)) = ($code.stack.pop(), $code.stack.pop()) {
@@ -84,6 +104,9 @@ pub mod interpreter {
             }
         }
     }
+    /*
+    Macro to compare values from stack - less than, less than equal, greater than, greater than equal
+     */
     macro_rules! compare {
     ($code:expr,$op:tt) => {
             if let (Some(a1), Some(b1)) = ($code.stack.pop(), $code.stack.pop()) {
@@ -96,18 +119,27 @@ pub mod interpreter {
             }
         }
     }
+    /*
+    Macro to print output to terminal with color code (yellow)
+     */
     #[macro_export]
     macro_rules! output {
         ($st:expr) => {
             print!("\x1b[93m{}\x1b[0m", $st)
         };
     }
+    /*
+    Macro to print output to terminal with color code (yellow) and new line
+     */
     #[macro_export]
     macro_rules! output_ln {
         ($st:expr) => {
             println!("\x1b[93m{}\x1b[0m", $st)
         };
     }
+    /*
+    Move values from one hash map to another hash map
+     */
     #[macro_export]
     macro_rules! move_parameters {
         ($mpsc_data:expr,$parameter_vars:expr) => {{
@@ -118,6 +150,9 @@ pub mod interpreter {
             parameters
         }};
     }
+    /*
+    Interpret and execute the byte code
+     */
     #[allow(dead_code)]
     pub fn execute(code: Vec<ByteCode>, stack: Vec<ByteCodeDataTypes>,
                    global_vars: HashMap<&'static str, ByteCodeDataTypes>,
@@ -316,6 +351,9 @@ mod tests {
     use std::fs::metadata;
     use std::ffi::OsStr;
     use crate::parse_code::parse_code::parse_code;
+    /*
+    Macro to print result or error to terminal
+     */
     macro_rules! result {
         ($func:expr, $result:expr) => {
             match $result {
@@ -330,6 +368,9 @@ mod tests {
             }
         };
     }
+    /*
+    Test arithmetic operation
+     */
     fn execute_arithmetic_byte_code() -> bool {
         let (result, _) =
             execute(vec![ByteCode::LoadVar(1),
@@ -343,6 +384,9 @@ mod tests {
                     HashMap::new());
         result!("execute_arithmetic_byte_code", result)
     }
+    /*
+    Test compare values from stack
+     */
     fn execute_compare_byte_code() -> bool {
         let (result, _) =
             execute(vec![ByteCode::LoadVar(1),
@@ -356,6 +400,9 @@ mod tests {
                     HashMap::new());
         result!("execute_compare_byte_code", result)
     }
+    /*
+    Test function definition and call
+     */
     fn execute_function_byte_code() -> bool {
         let mut functions = HashMap::new();
         functions.insert("add", vec![ByteCode::ReadVar("x"), ByteCode::ReadVar("y"), ByteCode::Add, ByteCode::ReturnValue]);
@@ -369,6 +416,9 @@ mod tests {
                     functions);
         result!("execute_function_byte_code", result)
     }
+    /*
+    Read the byte codes from code folder and execute one by one
+     */
     #[allow(dead_code)]
     pub fn execute_byte_code_from_file(dir: &str, ext: &str) -> bool {
         let paths = fs::read_dir(dir).unwrap();
