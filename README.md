@@ -78,22 +78,22 @@ Describe in a few sentences how each bytecode instruction could be interpreted, 
 Ans: I have implemented channels in this interpreter (code_thread.bc is example byte code to test channels) using rust channels. 
 Rust channels uses feature call atomic counter in most situation and only in worst cases it uses mutex to handle blocking nature.
 
-###(5) explain some ways hashing functions enable blockchain technology
+### (5) explain some ways hashing functions enable blockchain technology
 Ans: Hash function are used to construct merkle trees and also to generate block header hash, which is th root of merkle tree in a block.
 
-###(6) briefly explain Bitcoin's UTXO model of transaction validation (separate from POW)
+### (6) briefly explain Bitcoin's UTXO model of transaction validation (separate from POW)
 Ans: When someone receives bitcoin, the transaction is recorded as UTXO (unspent transaction output). 
 When someone transfers bitcoin to someone else, the balance from this transaction forms a return change transaction that also forms UTXO, this UTXO forms the input for the next transaction from this account. 
 The UTXO's that are consumed for a transaction are called transaction inputs. The UTXO's that are created by a transaction are called transaction outputs. 
 
-###(7) what is the structure of a Block in bitcoin and how does it relate to the 'blockchain' (merkle tree vs merkle list of merkle trees)
+### (7) what is the structure of a Block in bitcoin and how does it relate to the 'blockchain' (merkle tree vs merkle list of merkle trees)
 Ans: Each block in bitcoin consists of block size, block header, transaction counter and transactions. 
 The block header consists of version, previous block hash, merkle root, timestamp, difficulty target and nonce. 
 The blocks are tied into a chain with the root/header hash of previous block, that forms the blockchain.
 Merkle tree is linked binary tree of hash of transactions. Transactions hashed, two hash of transaction is hashed again to form the root of those two transaction.
 Merkle list is merkle tree stored in list (array).
 
-###(8) what problem/s are POW/POS trying to solve? discuss/compare (byzantine fault tolerance, reaching a single consensus on a p2p network)
+### (8) what problem/s are POW/POS trying to solve? discuss/compare (byzantine fault tolerance, reaching a single consensus on a p2p network)
 Ans: POW/POS is implements to ensure that nodes does not behave inappropriately. 
 Byzantine fault tolerance assumes that certain number of nodes will be down or will provide faulty data. 
 For example if 2/3 of nodes provides same outcome for a computational work and 1/3 provides faulty data, then the data received from 2/3 is accepted into the system.
