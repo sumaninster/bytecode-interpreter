@@ -1,4 +1,4 @@
-#Composable Finance ByteCode Interpreter
+# Composable Finance ByteCode Interpreter
 Sample byte codes are in code folder. 
 If you want to add more byte code just add it to code folder with .bc extension.
 
